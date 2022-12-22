@@ -16,7 +16,13 @@ connection.end()
 
 
 app.get('/', (req,res) => {
-    res.send('<h1>Full Cycle</h1>')
+    const connection = mysql.createConnection(config)
+    const sql = `SELECT name from people` 
+    connection.query(sql,function (err, result, fields) {
+        if (err) throw err;
+        res.send('<h1>Full Cycle</h1><div>'+result[0].name+'</div>');
+      })
+    connection.end()
 })
 
 app.listen(port, ()=> {
